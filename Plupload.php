@@ -95,6 +95,11 @@ class Plupload extends Widget
 		if (!isset($this->errorContainer))
 			$this->errorContainer = "plupload_{$id}_em";
 
+		if (!isset($this->options['multipart_params']))
+			$this->options['multipart_params'] = [];
+
+		$this->options['multipart_params'][Yii::$app->request->csrfParam] = Yii::$app->request->csrfToken;
+
         $bundle = PluploadAsset::register($this->view);
 			
 		$defaultOptions = [
