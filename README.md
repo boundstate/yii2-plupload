@@ -23,8 +23,48 @@ to the require section of your `composer.json` file.
 
 ## Usage
 
-Once the extension is installed, simply create an upload button with:
+### Action
 
 ```php
-<?= \boundstate\plupload\Plupload::widget(); ?>
+public function actions() {
+    return [
+        'upload' => [
+            'class' => PluploadAction::className(),
+            'onComplete' => function ($filename, $params) {
+                // Do something with file
+            }
+        ],
+    ];
+}
+```
+
+### Widget
+
+```php
+<?= Plupload::widget([
+    'url' => ['upload'],
+    'browseLabel' => 'Upload',
+    'browseOptions' => ['id' => 'browse', 'class' => 'btn btn-success'],
+    'options' => [
+        'filters' => [
+            'mime_types' => [
+                ['title' => 'Excel files', 'extensions' => 'csv,xls,xlsx'],
+            ],
+        ],
+    ],
+    'events' => [
+        'FilesAdded' => 'function(uploader, files){
+            $("#error-container").hide();
+            $("#browse").button("loading");
+            uploader.start();
+        }',
+        'FileUploaded' => 'function(uploader, file, response){
+            $("#browse").button("reset");
+        }',
+        'Error' => 'function (uploader, error) {
+            $("#error-container").html(error.message).show();
+            $("#browse").button("reset");
+        }'
+    ],
+]); ?>
 ```
