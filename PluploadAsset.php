@@ -11,7 +11,7 @@ class PluploadAsset extends AssetBundle
 {
     public $sourcePath = '@vendor/moxiecode/plupload/js';
     public $js = [
-        'plupload.full.min.js',
+        'plupload.min.js',
     ];
     public $depends = [
         'yii\web\JqueryAsset',
